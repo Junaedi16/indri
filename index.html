@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ucapan Selamat untuk Indri Fajarani</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .content h1 {
+            color: #4CAF50;
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: fadeIn 2s;
+        }
+
+        .content p {
+            font-size: 1.5em;
+            color: #333;
+            animation: fadeIn 3s;
+        }
+
+        .animated-image {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            animation: bounce 2s infinite;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ff69b4;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 2s;
+            z-index: 20;
+        }
+
+        .play-button:hover {
+            background-color: #ff85c4;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-20px); }
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            transform: rotate(45deg);
+            animation: floatUp 4s infinite;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+            top: -10px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: 10px;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-200px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .gif-image {
+            position: absolute;
+            width: 150px;
+            animation: moveGif 6s infinite;
+        }
+
+        @keyframes moveGif {
+            0% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(50px, 100px);
+            }
+            100% {
+                transform: translate(-50px, 0);
+            }
+        }
+
+        .round-photo {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid #ff69b4;
+            animation: zoomInOut 3s infinite;
+        }
+
+        @keyframes zoomInOut {
+            0%, 100% {
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="content">
+        <h1>Selamat, Indri Fajarani!</h1>
+        <p>Semoga segera meraih gelar S.M.!</p>
+    </div>  
+    <div class="content">
+        <h1>Lopyu</h1>
+    </div>
+
+
+    <!-- Round Photo with Animation -->
+    <img class="round-photo" src="indri.jpg" alt="Photo with Round Frame">
+
+    <!-- Bear Doll GIF -->
+    <img class="animated-image" src="https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif" alt="Bear Holding Love">
+
+    <!-- Firework effect -->
+    <canvas class="firework"></canvas>
+</div>
+
+<button class="play-button" id="play-music">Putar Musiknya Ya</button>
+
+<audio id="background-music" loop>
+    <source src="adele.mp3" type="audio/mpeg">
+    Browser Anda tidak mendukung pemutar audio.
+</audio>
+
+<script>
+    // Pemutar Musik
+    const audio = document.getElementById('background-music');
+    const playButton = document.getElementById('play-music');
+
+    playButton.addEventListener('click', () => {
+        audio.play();
+        playButton.style.display = 'none';
+    });
+
+    // Efek Firework
+    const canvas = document.querySelector('.firework');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    function Firework(x, y) {
+        this.x = x;
+        this.y = y;
+        this.particles = [];
+        this.explode = function() {
+            for (let i = 0; i < 100; i++) {
+                this.particles.push(new Particle(this.x, this.y));
+            }
+        };
+        this.update = function() {
+            this.particles.forEach((particle, index) => {
+                particle.update();
+                if (particle.alpha <= 0) {
+                    this.particles.splice(index, 1);
+                }
+            });
+        };
+        this.draw = function() {
+            this.particles.forEach(particle => particle.draw());
+        };
+    }
+
+    function Particle(x, y) {
+        this.x = x;
+        this.y = y;
+        this.alpha = 1;
+        this.velocity = {
+            x: (Math.random() - 0.5) * 10,
+            y: (Math.random() - 0.5) * 10
+        };
+        this.update = function() {
+            this.x += this.velocity.x;
+            this.y += this.velocity.y;
+            this.alpha -= 0.02;
+        };
+        this.draw = function() {
+            ctx.globalAlpha = this.alpha;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+            ctx.fillStyle = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            ctx.fill();
+        };
+    }
+
+    function animate() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        if (Math.random() < 0.05) {
+            const firework = new Firework(Math.random() * canvas.width, canvas.height);
+            firework.explode();
+            fireworks.push(firework);
+        }
+        fireworks.forEach((firework, index) => {
+            firework.update();
+            firework.draw();
+            if (firework.particles.length === 0) {
+                fireworks.splice(index, 1);
+            }
+        });
+        requestAnimationFrame(animate);
+    }
+
+    const fireworks = [];
+    animate();
+
+    // Efek Hati yang Melayang
+    function createHeart() {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = `${Math.random() * window.innerWidth}px`;
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 4000);
+    }
+
+    setInterval(createHeart, 500);
+</script>
+
+</body>
+</html>
